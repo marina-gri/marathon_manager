@@ -1,0 +1,127 @@
+.params-container {
+	padding-left: 20px;
+}
+
+.params {
+	margin-top: 20px;
+}
+
+.set-params {
+	border: 2px solid #007cb9;
+	margin-top: 10px;
+	margin-right: 20px;
+}
+
+input {
+	height: 20px;
+}
+
+.select-field {
+	height: 25px;
+}
+
+.checkbox-field {
+	width: 20px;
+    height: 20px;
+
+}
+
+.time-field {
+	width: 40px;
+}
+
+
+legend {
+	color: #455d7a;
+	font-size: 14px;
+}
+
+label {
+	font-size: 14px;
+}
+
+
+.save-competition {
+	margin-top: 20px;
+	margin-bottom: 30px;
+	width: 190px;
+	height: 50px;
+	background: #007cb9;
+	color: white;
+	font-size: 20px;
+	border: none;
+}
+
+.permissions {
+	display: flex;
+	flex-direction: column;
+}
+
+.user_id {
+	width: 50px;
+}
+
+
+
+.up-label {
+	margin-bottom: 8px;
+	display: block;
+}
+
+.up-label-input {
+	margin-left: 45px;
+}
+
+.title-input {
+	width: 190px;
+}
+
+.race_start_at {
+	width: 150px;
+}
+
+.race-length-params {
+	display: flex;
+	flex-direction: row;
+}
+
+.race-length-params-hours {
+	margin-right: 20px;
+}
+
+.race-length-params-till-the-end {
+	margin: 10px 5px 0px 0px;
+}
+
+.additional-info {
+	font-size: 10px;
+}
+
+.pit-to-params {
+	margin-top: 10px;
+}
+
+.add-new-input {
+	display: inline-flex;
+	flex-direction: row;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.add-button {
+	margin-left: 5px;
+}
+
+.date-time-params {
+	margin-left: 45px;
+}
+
+.race-start-at-date-container {
+	margin-right: 20px;
+	margin-bottom: 5px;
+
+}
+
+.race-start-at-date, .race-start-at-time {
+	width: 100px;
+}

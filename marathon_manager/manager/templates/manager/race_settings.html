@@ -1,0 +1,159 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'manager/css/create_race.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="params-container">
+	<form id="edit-race-form">
+		{% csrf_token %}
+	    <fieldset class="set-params main-params">
+	        <legend>Общие настройки</legend>
+	        <div class="params">
+	            <label for="" class="up-label">Название соревнования: </label>
+	            <input type="text" name="title" class="up-label-input title-input" id="title">
+	        </div>
+	        <div class="params">
+	            <label for="">Трасса: </label>
+	            <input type="text" name="track" id="track">
+	        </div>
+	        <div class="params">
+	            <label for="" class="up-label">Дата и время старта: </label>
+	            <div class="date-time-params">
+	            	<div class="race-start-at-date-container">
+			            <label for="">Дата</label>
+			            <input type="date" name="race_start_at_date" id="race_start_at_date" class="race-start-at-date">
+			        </div>
+			      	<div class="race-start-at-date-container">
+			            <label for="">Время</label>
+			            <input type="time" name="race_start_at_time" step="1" id="race_start_at_time" class="race-start-at-time">
+	            	</div>
+	            </div>
+	            
+	        </div>
+	        <div class="params">
+	        	<div class="race-length-params-title">
+	            	<label for="" class="up-label">Продолжительность гонки: </label>
+	            </div>
+
+	            <div class="race-length-params">
+	            	<div class="race-length-params-hours up-label-input">
+			            <input type="number" class="time-field" name="race_length_hours" id="race_length_hours">
+			            <label for="">ч</label>
+		            </div>
+
+		            <div class="race-length-params-minutes">
+		            	<input type="number" class="time-field" name="race_length_minutes" id="race_length_minutes">
+		            	<label for="">мин</label>
+		            </div>
+
+	            </div>
+	            <div class="race-length-params-till-the-end">
+		            <input type="checkbox" class="checkbox-field" name="till_the_end" id="till_the_end">
+		            <label for="">Пока не закончится</label>
+		            <div>
+		            <label for="" class="additional-info">(Отметить, если продолжительность гонки не известна. Если галка установлена, то таймер обратного отсчета гонки не будет работать)</label>
+		            </div>
+	            </div>
+	        </div>
+	    </fieldset>
+
+	    <fieldset class="set-params pit-params">
+	        <legend>Параметры пит-стопов</legend>
+	        <div class="params">
+	        	<div class="pit-params">
+	            	<label for="" class="up-label">Минимальное время пит-стопа: </label>
+	            </div>
+	            <div class="race-length-params">
+		            <div class="race-length-params-hours up-label-input">
+			            <input type="number" class="time-field" name="min_pit_minutes" id="min_pit_minutes">
+			            <label for="">мин</label>
+		        	</div>
+		        	<div class="race-length-params-minutes">
+			            <input type="number" class="time-field" name="min_pit_seconds" id="min_pit_seconds">
+			            <label for="">сек</label>
+		            </div>
+	            </div>
+
+	            <div class="pit-to-params">
+		            <label for="">Кому пит:</label>
+	                <select name="pit_to" class="select-field" id="pit_to">
+	                    <option value="nobody">никому</option>
+	                    <option value="next">принимающему</option>
+	                    <option value="privious">сдающему</option>
+	                </select>
+
+	        </div>
+	    </fieldset>
+
+	    <fieldset class="set-params session-params">
+	        <legend>Параметры сессий</legend>
+	        <div class="params">
+	            <label for="">max стинт: </label>
+
+	            <input type="number" name="max_stint_hours" class="time-field" id="max_stint_hours">
+	            <label for="">ч</label>
+
+	            <input type="number" name="max_stint_minutes" class="time-field" id="max_stint_minutes">
+	            <label for="">мин</label>
+	            <div>
+		            <label for="" class="additional-info">(Максимальная продолжительность одной сессии)</label>
+		        </div>
+	        </div>
+	        <div class="params">
+	            <label for="">min на пилота: </label>
+
+	            <input type="number" name="min_pilot_hours" class="time-field" id="min_pilot_hours">
+	            <label for="">ч</label>
+
+	            <input type="number" name="min_pilot_minutes" class="time-field" id="min_pilot_minutes">
+	            <label for="">мин</label>
+	            <div>
+		            <label for="" class="additional-info">(Минимальный суммарный трек-тайм для одного пилота)</label>
+		        </div>
+	        </div>
+	        <div class="params">    
+	            <label for="">max на пилота:</label>
+
+	            <input type="number" name="max_pilot_hours" class="time-field" id="max_pilot_hours">
+	            <label for="">ч</label>
+
+	            <input type="number" name="max_pilot_minutes" class="time-field" id="max_pilot_minutes">
+	            <label for="">мин</label>
+	            <div>
+		            <label for="" class="additional-info">(Максимальный суммарный трек-тайм для одного пилота)</label>
+		        </div>
+
+	        </div>
+	    </fieldset>
+
+		<fieldset class="set-params permission-params">
+	        <legend>Настройка доступа</legend>
+	        <div class="params permissions">
+	            <label for="">Укажите id пользователeй:</label>
+	            <div>
+		            <label for="" class="additional-info">(В одном поле указывается один id. Кнопка "+" добавляет новую строку. Id пользователя отображается в правом верхнем углу сайта.)</label>
+		        </div>
+	            <div class="add-new-input">
+		            <input type="number" name="user_id" class="user_id">
+		            <button type="button" class="add-button" onclick="addFn()"> + </button>
+	        	</div>
+	        </div>
+	    </fieldset>
+
+
+	    <button type="submit" class="save-competition">Сохранить</button>
+	</form>	
+
+	
+</div>
+
+<script id="competition-data" type="application/json">
+    {{ competition|safe }}
+</script>
+
+
+
+<script src="{% static 'manager/js/race_settings.js' %}"></script>
+
+{% endblock %}

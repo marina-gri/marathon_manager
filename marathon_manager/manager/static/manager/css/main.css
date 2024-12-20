@@ -1,0 +1,122 @@
+.add-race-container {
+	display: flex;
+	padding-left: 10px;
+}
+
+.add-race-container button {
+	margin-left: 10px;
+	height: 20px;
+}
+
+.add-race-container p {
+	margin: 0;
+}
+
+
+
+ul {
+	padding: 0;
+}
+
+.li-element {
+	margin-left: 20px;
+	margin-right: 20px;
+	list-style: none;
+	border-bottom: 5px solid rgba(213, 238, 255, 0.5);
+
+}
+
+.li-element:hover {
+	list-style: none;
+	background: #d5eeff;
+
+}
+
+
+a {
+	text-decoration:none;
+	color:inherit;
+	width: 100%;
+}
+
+a:visited{
+	color:inherit;
+}
+
+.race-card {
+	display: flex;
+	height: 85px;
+	flex-direction: row;
+	font-size: 12px;
+	padding-bottom: 0;
+	margin-bottom: 10px;
+}
+
+.race-info-block {
+	width: 90%;
+}
+
+.status-info-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    color: lightgrey;
+    width: 10%;
+}
+
+.title-block-style p {
+	font-size: 14px;
+}
+
+.track-block-style p {
+	font-size: 10px;
+	margin-top: 0;
+	margin-bottom: 5px;
+
+}
+
+.track-lenth-block {
+	display: flex;
+	flex-direction: row;
+}
+
+.datetime-block-style {
+	margin-right: 100px;
+}
+
+.datetime-block-style p, .track-lenth-block p{
+	font-size: 10px;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+
+/* Стили для пагинации */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f57c00;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #e65100;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+

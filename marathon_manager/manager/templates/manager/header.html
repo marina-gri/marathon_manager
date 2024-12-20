@@ -1,0 +1,25 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'manager/css/header.css' %}">
+<div class="header-container">
+    <div class="header-blocks">
+        <div class="header-block logo-block">
+            <a href="/main/">
+            <img class="logo" src="{% static 'manager/images/logo.png' %}" alt="Логотип">
+            </a>
+        </div>
+
+        <div class="header-block center-block">
+
+        </div>
+
+        <div class="header-block settings-block">
+            <p>{{ user_name }}</p>
+            <p>Ваш id: {{ user_id }}</p>
+            <!-- <button type="button" id="settings-button" class="btn-settings">Настройки</button> -->
+            <form id="logout-form" method="POST" action="">
+                <button type="button" id="logout-button" class="btn-logout">Выход</button>
+            </form>
+        </div>
+    </div>
+</div>

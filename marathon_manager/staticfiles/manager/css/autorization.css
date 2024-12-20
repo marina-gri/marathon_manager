@@ -1,0 +1,126 @@
+body {
+	background: #007cb9;
+	margin: 0px;
+    padding: 0px;
+}
+
+.autorization {
+	background: #005689;
+	width: 500px;
+	margin-top: 130px;
+	padding-top: 30px;
+	padding-bottom: 70px;
+	margin-right: auto;
+    margin-left: auto;
+    display: flex;
+	flex-direction: column;
+	box-shadow: 4px 6px 62px 19px rgba(213, 238, 255, 0.29);
+}
+
+.autorization-form {
+	height: 30px;
+	width: 250px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	margin-top: 20px;
+	margin-right: auto;
+    margin-left: auto;  
+    overflow: hidden; 
+}
+
+.autorization-form.title {
+	margin-bottom: 10px; 
+}
+
+img {
+	height: 100%;
+    width: auto;
+    background: #ff895d;
+}
+
+.input-field-style {
+	border: none;
+	line-height: 30px;
+	width: 220px;
+
+}
+
+.autorization-form.link {
+	border: none;
+	line-height: 30px;
+	cursor: pointer;
+	display: inline-block;
+	box-sizing: border-box;
+	margin-top: 0;
+	background: #fff;
+	text-align: center;
+	text-decoration: none;
+	font-family: Tahoma, sans-serif;
+	font-size: 18px;
+	letter-spacing: 2px;
+	color: #005689;
+}
+
+.autorization-form.button {
+	margin-bottom: 20px;
+}
+
+.autorization-form.create-recover-account {
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+.form-title {
+	font-family: Tahoma, sans-serif;
+	font-size: 25px;
+	letter-spacing: 2px;
+	margin-top: 0;
+	color: #FFF;
+	display: flex;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.account {
+	margin-top: 0;
+    font-family: Tahoma, sans-serif;
+	font-size: 14px;
+	color: #d5eeff;
+	letter-spacing: 2px;
+	text-decoration: underline;
+	text-decoration-style: dashed;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	cursor: pointer;
+}
+
+.account-link {
+	width: 250px;
+	text-align: center; 
+	text-decoration: none;
+}
+
+.autorization-form:not(.active):hover {
+	box-shadow: 0px 0px 38px 3px rgba(213, 238, 255, 0.3);
+}
+
+.autorization-form.link:not(.active):focus {
+	box-shadow: inset 0px -49px 19px 13px rgba(000, 238, 255, 0.4);
+}
+
+.autorization-form.create-recover-account:not(.active):hover {
+	box-shadow: none;
+}
+
+.autorization-form.title:not(.active):hover {
+	box-shadow: none;
+}
+
+.input-field-style:focus {
+	outline: none;
+}
+
+.account:hover {
+	text-shadow: 0px 3px 10px rgba(213, 238, 255, 0.5);
+}

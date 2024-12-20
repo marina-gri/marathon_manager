@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang='ru'>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'manager/css/registration.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Регистрация</title>
+</head>
+<body>
+    <form id="register-form" action="" method="POST">
+        {% csrf_token %}
+        <div class="registration">
+            <div class="registration-form title">
+                <p class="form-title">Регистрация</p>
+            </div>
+
+            <div class="registration-form" id="email-container">
+                <div class="input-block caption-block">
+                    <p class="caption">E-mail</p>
+                </div>
+                <div class="input-block common-block">
+                    <div class="registration-image">
+                        <img src="{% static 'manager/images/mail.png' %}" alt="Email Icon">
+                    </div>
+                    <div class="input-field">
+                        <input class="input-field-style" type="text" name="email" id="email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-form" id="name-container">
+                <div class="input-block caption-block">
+                    <p class="caption">Логин</p>
+                </div>
+                <div class="input-block common-block">
+                    <div class="registration-image">
+                        <img src="{% static 'manager/images/user.png' %}" alt="User Icon">
+                    </div>
+                    <div class="input-field">
+                        <input class="input-field-style" type="text" name="name" id="name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-form" id="password1-container">
+                <div class="input-block caption-block">
+                    <p class="caption">Пароль</p>
+                </div>
+                <div class="input-block common-block">
+                    <div class="registration-image">
+                        <img src="{% static 'manager/images/password.png' %}" alt="Password Icon">
+                    </div>
+                    <div class="input-field">
+                        <input class="input-field-style" type="password" name="password1" id="password1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-form" id="password2-container">
+                <div class="input-block caption-block">
+                    <p class="caption">Подтверждение пароля</p>
+                </div>
+                <div class="input-block common-block">
+                    <div class="registration-image">
+                        <img src="{% static 'manager/images/password.png' %}" alt="Confirm Password Icon">
+                    </div>
+                    <div class="input-field">
+                        <input class="input-field-style" type="password" name="password2" id="password2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="registration-form button">
+                <button type="submit" class="registration-form link">Зарегистрироваться</button>
+            </div>
+
+            <div class="registration-form create-recover-account">
+				<a class="account-link" href="{% url 'autorization_page' %}">
+					<p class="account">Вернуться к авторизации</p>
+				</a>
+			</div>
+        </div>
+
+        
+    </form>
+    <script src="{% static 'manager/js/register.js' %}"></script>
+</body>
+</html>
