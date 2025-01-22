@@ -1,0 +1,57 @@
+.schedule-section {
+	width: 100%;
+}
+.header-schedule-block, .schedule-block {
+	box-sizing: border-box;
+	width: 360px;
+	display: flex;
+	flex-direction: row;
+	gap: 3px;
+	
+	border: 1px solid grey;
+}
+
+.header-schedule-block {
+	font-size: 12px;
+	color: grey;
+}
+
+.schedule-block {
+	font-size: 13px;
+}
+
+.header-schedule-block p {
+	margin: 10px 0 10px 0;
+}
+
+.schedule-block p{
+	margin: 10px 0 10px 0;
+}
+
+.session-number-field {
+	width: 40px;
+	text-align: center;
+}
+
+.pilot-name-field {
+	width: 100px;
+	text-align: center;
+}
+
+.length-session-field {
+	width: 120px;
+	text-align: center;
+}
+
+.await-field {
+	width: 90px;
+	text-align: center;
+}
+
+.next-session-btn {
+	margin-left: 10px;
+}
+
+.info-block {
+	margin-left: 10px;
+}

@@ -1,0 +1,46 @@
+body {
+	margin: 0px;
+    padding: 0px;
+    overflow: auto;
+    font-family: Tahoma, sans-serif;
+    min-width: 300px;
+}
+
+.header-blocks {
+	display: flex;
+	flex-direction: row;
+}
+
+.header-block {
+	width: 33%;
+	margin-top: 5px;
+}
+
+.logo-block {
+	margin: auto;
+	margin-bottom: auto;
+	padding-left: 10px;
+}
+
+.logo {
+	width: 130px;
+	height: auto;
+}
+
+.settings-block {
+	text-align: right;
+	padding-right: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.settings-block button {
+	margin-left: auto;
+	width: 90px;
+}
+
+
+
+.settings-block p {
+	margin: 0;
+}

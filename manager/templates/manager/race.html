@@ -1,0 +1,219 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'manager/css/race.css' %}">
+{% csrf_token %}
+<div class="caption-container">
+    <p id="competition-caption"></p>
+</div>
+
+<div class="control-container">
+    
+    <button class="flag-btn start">
+        <img class="flags-img-btn" src="{% static 'manager/images/green_flag.png' %}" alt="">
+    </button>
+    <button class="flag-btn red">
+        <img class="flags-img-btn" src="{% static 'manager/images/red_flag.png' %}" alt="">
+    </button>
+    <button class="flag-btn finish">
+        <img class="flags-img-btn" src="{% static 'manager/images/finish_flag.png' %}" alt="">
+    </button>
+    
+    <!-- Таймеры -->
+    <div class="race-timers">
+        <label class="timer-from-start">00:00:00</label>
+        <label class="delimetr">/</label>
+        <label class="timer-till-the-end">00:00:00</label>
+    </div>
+    <button class="settings-btn" id="change-race-settings">
+        <img src="{% static 'manager/images/settings.png' %}" alt="">
+    </button>
+</div>
+
+<hr class="race-control-line">
+
+<!-- Команды -->
+<div class="team-container">
+    <div class="tab">
+        <div class="team-header-container">
+            <div id="team-list">
+                <!-- Команды будут рендериться здесь -->
+            </div>
+            <div class="add-team">
+                <button class="add-team-btn">Добавить команду</button>
+            </div>
+        
+        </div>
+        <div class="team-content-container">
+            {% for team in teams_list %}
+            <div class="tab-content" id="team-{{ team.id }}">
+                <!-- Работа с пит-стопами -->
+                <div class="race-info-container">
+                    <div class="pit-block pit-settings">
+                        <div class="info stopwatch">
+                            <p id="stopwatch" class="stopwatch">00:00:00</p>            
+                        </div>
+
+                        <div class="info session-info">
+                            <p></p>            
+                        </div>
+                        <div class="info btn-field">
+                            <button id="pit-btn" class="pit-button">PIT-IN</button>
+                        </div>
+                    </div>
+                </div>
+
+                <label class="info-block format-view">
+                    <select id="view-selector" class="stat-selector">
+                        <option value="sessions">График сессий</option>
+                        <option value="pilots">Статистика пилотов</option>
+                        <option value="pitstops">Статистика пит-стопов</option>
+                    </select>
+                </label>
+                <section class="schedule-section">
+                    <header class="header-schedule-block" id="section-header">
+                    </header>
+                    <div class="schedule-block" id="section-content">
+                       <!-- здесь выводится динамический контент -->
+                    </div>
+                    <button class="add-session-btn">следующая сессия</button>
+                </section>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</div>
+
+<!-- Модальное окно добавления команды -->
+<div id="add-team-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Добавить команду</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="add-team-form">
+                <div class="input-container">
+                    <label for="team-name">Название команды</label>
+                    <input type="text" id="team-name" placeholder="Название команды" required>
+                </div>
+                <div class="input-container">
+                    <label for="team-number">Номер команды</label>
+                    <input type="number" id="team-number" placeholder="Номер команды" required>
+                </div>
+                <div id="pilot-fields-container" class="input-container">
+                    <label>Пилоты:</label>
+                    <div class="pilot-field">
+                        <input type="text" name="pilot-names[]" class="pilot-name" placeholder="Имя пилота" required>
+                        <button type="button" class="button-danger remove-pilot-btn">Удалить</button>
+                    </div>
+                </div>
+                <button type="button" id="add-pilot-btn" class="button-primary">Добавить пилота</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" form="add-team-form" class="button-primary">Добавить команду</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Модальное окно добавления сессии -->
+<div id="add-session-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Добавить сессию</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="add-session-form">
+                <div class="input-container">
+                    <label for="pilot-select">Выберите пилота</label>
+                    <select id="pilot-select" required>
+                        <!-- Пилоты будут загружены динамически -->
+                    </select>
+                </div>
+                <div class="input-container">
+                    <label for="session-hours">Часы:</label>
+                    <input type="number" id="session-hours" placeholder="0" min="0">
+                </div>
+                <div class="input-container">
+                    <label for="session-minutes">Минуты: </label>
+                    <input type="number" id="session-minutes" placeholder="0" min="0" max="59">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="button-danger cancel-btn">Отмена</button>
+            <button type="submit" form="add-session-form" class="button-primary">ОК</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно редактирования сессии -->
+<div id="edit-session-modal" class="modal">
+    <div class="modal-content small">
+        <div class="modal-header">
+            <h2>Редактирование сессии</h2>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="edit-session-form">
+                <input type="hidden" id="edit-session-id">
+
+                <label for="edit-session-number">Сессия </label>
+                <p id="edit-session-number"></p>
+
+
+
+                <div class="input-container">
+                    <label for="edit-pilot-select">Выберите пилота</label>
+                    <select id="edit-pilot-select" required>
+                        <!-- Список пилотов подгружается динамически -->
+                    </select>
+                </div>
+                <div class="input-container">
+                    <label for="edit-session-hours">Часы: </label>
+                    <input class="modal-input-field" type="number" id="edit-session-hours" placeholder="0" min="0">
+                </div>
+                <div class="input-container">
+                    <label for="edit-session-minutes">Минуты: </label>
+                    <input class="modal-input-field" type="number" id="edit-session-minutes" placeholder="0" min="0" max="59">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="button-danger cancel-btn">Отмена</button>
+            <button type="submit" form="edit-session-form" class="button-primary">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+<script id="competition-data" type="application/json">
+    {{ competition|safe }}
+</script>
+<script id="team-data" type="application/json">
+    {{ teams|safe }}
+</script>
+<script id="pilot-data" type="application/json">
+    {{ pilots|safe }}
+</script>
+<script id="session-data" type="application/json">
+    {{ sessions|safe }}
+</script>
+<script id="pitstop-data" type="application/json">
+    {{ pitstop|safe }}
+</script>
+
+
+<script src="{% static 'manager/js/race.js' %}"></script>
+<script src="{% static 'manager/js/flags.js' %}"></script>
+<script src="{% static 'manager/js/pitstop.js' %}"></script>
+<script src="{% static 'manager/js/statmanager.js' %}"></script>
+<script src="{% static 'manager/js/add_team.js' %}"></script>
+<script src="{% static 'manager/js/add_session.js' %}"></script>
+
+
+{% endblock %}

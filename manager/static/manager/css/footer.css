@@ -1,0 +1,26 @@
+.footer-container {
+	background-color: #005789;
+	padding: 15px 10px;
+	margin-top: 100px;
+	text-align: center;
+}
+
+.footer-container a {
+	text-decoration: none;
+	color: #eee;
+}
+
+.donates-block {
+	margin-bottom: 7px;
+}
+
+.contacts-block {
+	margin-bottom: 10px;
+}
+
+.text-info {
+	display: inline-block;
+	color: #ccc;
+	width: 85%;
+	font-size: 12px;	
+}

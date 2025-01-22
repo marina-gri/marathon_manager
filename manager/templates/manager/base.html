@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'manager/css/base.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <title>{% block title %}Сайт{% endblock %}</title>
+</head>
+<body>
+
+        <!-- Включение шапки -->
+        {% include 'manager/header.html' %}
+        
+        
+        <!-- Основной контент -->
+        <div class="content-container">
+            {% block content %}{% endblock %}
+        </div>
+
+        <!-- Включение подвала -->
+        {% include 'manager/footer.html' %}
+
+    <script src="{% static 'manager/js/logout.js' %}"></script>
+</body>
+</html>

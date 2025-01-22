@@ -1,0 +1,30 @@
+{% extends 'manager/base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- Подключаем стили -->
+<link rel="stylesheet" href="{% static 'manager/css/main.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="add-race-container">
+    <p>Создать соревнование</p>
+    <button type="button" id="add-race-button" class="add-race-button">+</button>
+</div>
+
+<hr>
+
+<div class="race-container">
+    <div class="race-items">
+        <ul id="race-items-container">
+            
+            <!-- Данные соревнований будут вставляться сюда с помощью JavaScript -->
+        </ul>
+    </div>
+</div>
+
+
+<script src="{% static 'manager/js/main.js' %}"></script>
+
+{% endblock %}
