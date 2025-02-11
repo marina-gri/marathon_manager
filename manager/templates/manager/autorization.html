@@ -6,7 +6,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="{% static 'manager/css/autorization.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'manager/js/sweetalert.js' %}"></script>
 	<title>Авторизация</title>
 </head>
 <body>
@@ -19,35 +19,47 @@
 				<p class="form-title">Авторизация</p>
 			</div>
 
-			<div class="autorization-form">
-				<div class="autorization-image">
-					<img src="{% static 'manager/images/mail.png' %}" alt=""> 
-				</div>
-				<div class=input-field>
-					<input class=input-field-style type="email" name="email" id="email">
-				</div>
-			</div>
 
-			<div class="autorization-form">
-				<div class="autorization-image">
-					<img src="{% static 'manager/images/password.png' %}" alt=""> 
-				</div>
-				<div class=input-field>
-					<input class=input-field-style type="password" name="password" id="password">
-				</div>
-			</div>
+			<div class="autorization-form" id="email-container">
+                <div class="input-block caption-block">
+                    <p class="caption">E-mail</p>
+                </div>
+                <div class="input-block common-block">
+                    <div class="autorization-image">
+                        <img src="{% static 'manager/images/mail.png' %}" alt="Email Icon">
+                    </div>
+                    <div class="input-field">
+                        <input class="input-field-style" type="text" name="email" id="email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="autorization-form" id="password1-container">
+                <div class="input-block caption-block">
+                    <p class="caption">Пароль</p>
+                </div>
+                <div class="input-block common-block">
+                    <div class="autorization-image">
+                        <img src="{% static 'manager/images/password.png' %}" alt="Password Icon">
+                    </div>
+                    <div class="input-field">
+                        <input class="input-field-style" type="password" name="password" id="password">
+                    </div>
+                </div>
+            </div>
+
 
 			<div class="autorization-form button">
 				<button type="submit" class="autorization-form link">Войти</button>
 			</div>
 
-			<div class="autorization-form create-recover-account">
+			<div class="create-recover-account">
 				<a class="account-link" href="{% url 'registration_page' %}">
 					<p class="account">Нет аккаунта</p>
 				</a>
 			</div>
 
-			<div class="autorization-form create-recover-account">
+			<div class="create-recover-account">
 				<a class="account-link" href="">
 					<p class="account">Забыл пароль?</p>
 				</a>

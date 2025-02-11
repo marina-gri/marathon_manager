@@ -70,6 +70,7 @@ img {
 	margin-top: 30px;
 	margin-bottom: 0;
 	padding: 0;
+	text-align: center;
 }
 
 .registration-form.link {
@@ -80,8 +81,9 @@ img {
 	letter-spacing: 2px;
 	color: #005689;
 	margin-bottom: 0;
-	display: inline-block;
-	text-align: center;
+	display: flex;
+	align-items: center;
+    justify-content: center;
 }
 
 .form-title {
@@ -143,6 +145,6 @@ input:hover {
 }
 
 .error {
-    border-color: red; /* Красная рамка вокруг поля с ошибкой */
-    background-color: #ffe6e6; /* Легкий красный фон */
+    border-color: red;
+    background-color: #ffe6e6;
 }
