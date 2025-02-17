@@ -19,3 +19,5 @@ settings_local.py
 .DS_Store
 
 project/*
+
+ssl/

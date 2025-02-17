@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="{% static 'manager/css/base.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <script src="{% static 'manager/js/sweetalert.js' %}"></script> 
     <title>{% block title %}Сайт{% endblock %}</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
         <!-- Включение шапки -->
         {% include 'manager/header.html' %}
         
-        
+        <hr>
         <!-- Основной контент -->
         <div class="content-container">
             {% block content %}{% endblock %}

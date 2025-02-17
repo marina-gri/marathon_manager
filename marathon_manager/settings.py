@@ -30,14 +30,14 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'www.marathonmng.ru',
     'marathonmng.ru',
+    '79.174.91.149'
 ]
-
 
 # Application definition
 
@@ -105,7 +105,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'marathon_manager',
         'USER': os.getenv('db_login'),
-        'PASSWORD': os.getenv('db_password')
+        'PASSWORD': os.getenv('db_password'),
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -137,20 +139,20 @@ AUTHENTICATION_BACKENDS = (
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'manager/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
-# Путь для хранения статических файлов после команды collectstatic (для production)
-STATIC_ROOT = BASE_DIR / 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'manager' / "static"]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -216,8 +218,8 @@ LOGGING = {
 
 
 CORS_ALLOWED_ORIGINS = [
-    'https://www.amkcrace.ru',
-    'https://amkcrace.ru',
+    'https://www.marathonmng.ru',
+    'https://marathonmng.ru',
 ]
 
 CORS_ALLOW_CREDENTIALS = True

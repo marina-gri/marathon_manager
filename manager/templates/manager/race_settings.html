@@ -3,7 +3,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'manager/css/create_race.css' %}">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'manager/js/sweetalert.js' %}"></script>
 <div class="params-container">
 	<form id="edit-race-form">
 		{% csrf_token %}

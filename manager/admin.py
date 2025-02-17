@@ -37,7 +37,6 @@ class CompetitionAdmin(admin.ModelAdmin):
 
 
 @admin.register(CompetitionVisibility)
-# Настройка админки для модели CompetitionVisibility
 class CompetitionVisibilityAdmin(admin.ModelAdmin):
     list_display = ('user', 'competition')
     list_filter = ('competition', 'user')
@@ -46,7 +45,6 @@ class CompetitionVisibilityAdmin(admin.ModelAdmin):
 
 
 @admin.register(Team)
-# Настройка админки для модели Team
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'competition')
     search_fields = ('name', 'competition__title')
@@ -54,7 +52,6 @@ class TeamAdmin(admin.ModelAdmin):
 
 
 @admin.register(Pilot)
-# Настройка админки для модели Pilot
 class PilotAdmin(admin.ModelAdmin):
     list_display = ('name', 'team')
     search_fields = ('name', 'team__name')

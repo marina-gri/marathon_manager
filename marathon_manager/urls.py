@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
@@ -29,6 +30,7 @@ urlpatterns = [
     path('register/', registration_page, name='registration_page'),
     path('login/', autorization_page, name='autorization_page'),
     path('main/', main_page, name='main_page'),
+    path('', lambda request: redirect('main_page')),
     path('race/<int:pk>/', race_page, name='race_page'),
     path('race/edit/<int:pk>/', edit_race_settings, name='edit_race_settings'),
     path('api/v1/logout/', logout_view, name='logout'),
