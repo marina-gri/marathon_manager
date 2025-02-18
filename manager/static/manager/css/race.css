@@ -300,20 +300,19 @@
     margin-bottom: 20px;
 }
 
-.schedule-section {
-    width: 100%;
-}
 .header-schedule-block, .schedule-block {
     box-sizing: border-box;
-    width: 360px;
+    overflow-x: auto;
+    max-width: 700px;
+    min-width: 400px;
     display: flex;
     flex-direction: row;
-    gap: 3px;
     border: 2px solid #bbb;
 }
 
 .header-schedule-block {
     background-color: #eeeeee;
+    overflow-x: hidden;
 }
 
 .header-schedule-block {
@@ -327,7 +326,7 @@
     font-family: Verdana, sans-serif;
     margin-bottom: 20px;
     max-height: 350px;
-    overflow-y: auto;
+    
 
 }
 
@@ -338,6 +337,7 @@
 .schedule-row {
     display: flex;
     flex-direction: row;
+
 }
 
 .header-schedule-block p {
@@ -349,24 +349,71 @@
 }
 
 .session-number-field {
-    width: 40px;
+    width: 50px;
     margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .pilot-name-field {
-    width: 100px;
+    width: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .length-session-field {
     width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .await-field {
-    width: 90px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    flex-shrink: 0;
+}
+
+.start-field {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.finish-field {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.overtime-field {
+    width: 105px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.overtime-field-style {
+    color: red;
 }
 
 .next-session-btn {

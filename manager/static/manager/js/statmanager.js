@@ -55,6 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="pilot-name-field"><p>Пилот</p></div>
                 <div class="length-session-field"><p>Длительность</p></div>
                 <div class="await-field"><p>Время</p></div>
+                <div class="start-field"><p>Начало</p></div>
+                <div class="start-field"><p>Конец</p></div>
+                <div class="overtime-field"><p>Пересид</p></div>
             `;
         } else if (selectedView === 'pilots') {
             sectionHeader.innerHTML = `
@@ -243,6 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const pilotTrackTimeMin = competitionData.min_pilot;
                     const pilotTrackTimeMax = competitionData.max_pilot;
 
+
                     // Расчет разницы для min и max
                     const toMinTrackTime = pilotTrackTimeMin - pilotTrackTime < 0 ? '00:00:00' : formatTime(pilotTrackTimeMin - pilotTrackTime);
                     const toMaxTrackTime = pilotTrackTimeMax - pilotTrackTime < 0 
@@ -378,7 +382,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const timerValue = typeof window.globalTimerValue !== 'undefined' ? window.globalTimerValue : 0;
         const pitstopData = JSON.parse(document.getElementById('pitstop-data').textContent);
         const pitTo = JSON.parse(document.getElementById('competition-data').textContent).pit_to;
+        const raceStartAt = Date.parse(JSON.parse(document.getElementById('competition-data').textContent).race_start_at);
         const pitMinLength = JSON.parse(document.getElementById('competition-data').textContent).min_pit;
+        const stintMaxLength = JSON.parse(document.getElementById('competition-data').textContent).max_stint;
 
 
         /**
@@ -484,6 +490,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Месяцы в JS идут от 0
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+
+            return `${hours}:${minutes}`;
+        }
+
+
             /**
          * Функция инициализации таймеров для графика сессий.
          * Обновляет значения времени для активных и неактивных сессий.
@@ -500,71 +521,65 @@ document.addEventListener('DOMContentLoaded', () => {
                     .filter(session => session.team_name === teamId)
                     .sort((a, b) => a.session_number - b.session_number);
 
+                let currentStartFinishTime = raceStartAt;
                 let accumulatedCompletedTime = 0;
                 let accumulatedActiveTime = 0;
                 let counter = 0;
 
                 teamSessions.forEach(session => {
                     const awaitField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .await-field p`);
+                    const startField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .start-field p`);
+                    const finishField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .finish-field p`);
+            
                     if (!awaitField) return;
 
                     if (pitTo == 'nobody') {
+
+                        startField.textContent = formatTimestamp(currentStartFinishTime);
 
                         if (session.active) {
                             const activeSessionTime = elapsedSeconds - session.begin;
                             awaitField.textContent = `${formatTime(activeSessionTime)}`;
                             accumulatedActiveTime += session.planing_length;
-                            if (pitstopData[counter]) {
 
-                                if (pitstopData[counter].finished) {
-                                    accumulatedCompletedTime += pitstopData[counter].length;
-                                } else {
-                                    accumulatedCompletedTime += pitMinLength;
-                                }
-
-                            } else {
-                                accumulatedCompletedTime += pitMinLength;
-                            } 
+                            startField.textContent = formatTimestamp(currentStartFinishTime);
+                            currentStartFinishTime += session.planing_length * 1000;
+                            finishField.textContent = formatTimestamp(currentStartFinishTime);
 
                         } else if (session.finished) {
                             awaitField.textContent = 'Завершено';
-                            accumulatedCompletedTime += (session.fact_length);
-                            if (pitstopData[counter]) {
+                            accumulatedCompletedTime += session.fact_length;
 
-                                if (pitstopData[counter].finished) {
-                                    accumulatedCompletedTime += pitstopData[counter].length;
-                                } else {
-                                    accumulatedCompletedTime += pitMinLength;
-                                }
-
-                            } else {
-                                accumulatedCompletedTime += pitMinLength;
-                            } 
+                            startField.textContent = formatTimestamp(currentStartFinishTime);
+                            currentStartFinishTime += session.fact_length * 1000;
+                            finishField.textContent = formatTimestamp(currentStartFinishTime);
 
                         } else {
                             const timeToStart = accumulatedActiveTime + accumulatedCompletedTime - elapsedSeconds;
                             awaitField.textContent = timeToStart > 0 ? `До старта: ${formatTime(timeToStart)}` : 'Выпускай!';
                             accumulatedActiveTime += session.planing_length;
-                            if (pitstopData[counter]) {
 
-                                if (pitstopData[counter].finished) {
-                                    accumulatedCompletedTime += pitstopData[counter].length;
-                                } else {
-                                    accumulatedCompletedTime += pitMinLength;
-                                }
-
-                            } else {
-                                accumulatedCompletedTime += pitMinLength;
-                            } 
+                            startField.textContent = formatTimestamp(currentStartFinishTime);
+                            currentStartFinishTime += session.planing_length * 1000;
+                            finishField.textContent = formatTimestamp(currentStartFinishTime);
                         }
 
-                        counter++;
+                        
+                        if (pitstopData[counter]) {
+                            const pitstopLength = pitstopData[counter].finished ? pitstopData[counter].length : pitMinLength;
+                            accumulatedCompletedTime += pitstopLength;
+                            currentStartFinishTime += pitstopLength * 1000; // Смещение времени старта следующей сессии
+                        } else {
+                            accumulatedCompletedTime += pitMinLength;
+                            currentStartFinishTime += pitMinLength * 1000;
+                        }
+            
 
+                        counter++;
 
                     } else {
                         // если пит сдающему или принимающему. Добавить логику
                     }
-                    
                 });
             });
         }
@@ -629,6 +644,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const awaitFieldElement = document.createElement('p');
                 awaitFieldElement.className = session.active ? 'active-timer' : 'await-timer';
 
+                const startFieldElement = document.createElement('p');
+                const finishFieldElement = document.createElement('p');
+
+                let overtime = "";
+                if (session.end - session.begin > stintMaxLength) {
+                    overtime = formatTime((session.end - session.begin) - stintMaxLength);
+                }
+
 
                 if (session.finished) {
                     sessionRow.innerHTML = `
@@ -636,6 +659,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="pilot-name-field"><p>${session.pilot_name}</p></div>
                     <div class="length-session-field"><p>${formatTime(session.fact_length)}</p></div>
                     <div class="await-field"></div>
+                    <div class="start-field"></div>
+                    <div class="finish-field"></div>
+                    <div class="overtime-field  overtime-field-style"><p>${overtime}</p></div>
+
                 `;
                 } else {
                     sessionRow.innerHTML = `
@@ -643,11 +670,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="pilot-name-field"><p>${session.pilot_name}</p></div>
                     <div class="length-session-field"><p>${Math.floor(session.planing_length / 3600)}ч ${Math.floor((session.planing_length % 3600) / 60)}мин</p></div>
                     <div class="await-field"></div>
+                    <div class="start-field"></div>
+                    <div class="finish-field"></div>
+                    <div class="overtime-field"></div>
                 `;
                 }
 
                 // Добавление таймера
                 sessionRow.querySelector('.await-field').appendChild(awaitFieldElement);
+
+                // Добавление начала и конца сессии
+                sessionRow.querySelector('.start-field').appendChild(startFieldElement);
+                sessionRow.querySelector('.finish-field').appendChild(finishFieldElement);
                 scheduleBlock.appendChild(sessionRow);
              
             });
@@ -718,9 +752,18 @@ document.addEventListener('DOMContentLoaded', () => {
          * Обработчик для кликов по строкам сессий
          */
         document.addEventListener('click', function (event) {
-            const sessionRow = event.target.closest('.schedule-row');
-            if (sessionRow && sessionRow.dataset.sessionId) {
-                openEditSessionModal(sessionRow.dataset.sessionId);
+            const clickedElement = event.target;
+
+            // Проверяем, был ли клик на одном из нужных элементов
+            if (clickedElement.closest('.session-number-field') || 
+                clickedElement.closest('.pilot-name-field') || 
+                clickedElement.closest('.length-session-field')) {
+
+                const sessionRow = clickedElement.closest('.schedule-row');
+            
+                if (sessionRow && sessionRow.dataset.sessionId) {
+                    openEditSessionModal(sessionRow.dataset.sessionId);
+                }
             }
         });
 
@@ -901,5 +944,21 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScheduleBlock(teamId);
         scrollToRelevantSession(teamId);
     }
+
+    // Получаем элементы шапки и основного контента
+    const headerBlock = document.querySelector('.header-schedule-block');
+    const scheduleBlock = document.querySelector('.schedule-block');
+
+    // Добавляем слушатель события на прокрутку шапки
+    headerBlock.addEventListener('scroll', () => {
+        // Синхронизируем прокрутку schedule-block с header-schedule-block
+        scheduleBlock.scrollLeft = headerBlock.scrollLeft;
+    });
+
+    // Добавляем слушатель события на прокрутку основного контента
+    scheduleBlock.addEventListener('scroll', () => {
+        // Синхронизируем прокрутку header-schedule-block с schedule-block
+        headerBlock.scrollLeft = scheduleBlock.scrollLeft;
+    });
 
 });
