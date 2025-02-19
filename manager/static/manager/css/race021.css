@@ -300,11 +300,15 @@
     margin-bottom: 20px;
 }
 
+.font-bold {
+    font-weight: bold;
+}
+
 .header-schedule-block, .schedule-block {
     box-sizing: border-box;
     overflow-x: auto;
     max-width: 700px;
-    min-width: 400px;
+    min-width: 330px;
     display: flex;
     flex-direction: row;
     border: 2px solid #bbb;
@@ -326,19 +330,23 @@
     font-family: Verdana, sans-serif;
     margin-bottom: 20px;
     max-height: 350px;
-    
 
-}
-
-.font-bold {
-    font-weight: bold;
 }
 
 .schedule-row {
+    position: relative;  /* Для правильного позиционирования фона */
     display: flex;
     flex-direction: row;
-
+    width: 100%;  /* Растягиваем строку на всю ширину */
+    margin: 0;
+    box-sizing: border-box;
 }
+
+.schedule-row.active {
+    width: 700px;
+    background-color: #FFE8E0;
+}
+
 
 .header-schedule-block p {
     margin: 10px 0 10px 0;
@@ -359,7 +367,7 @@
 }
 
 .pilot-name-field {
-    width: 110px;
+    width: 105px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -368,7 +376,7 @@
 }
 
 .length-session-field {
-    width: 120px;
+    width: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -386,7 +394,7 @@
 }
 
 .start-field {
-    width: 100px;
+    width: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -395,7 +403,7 @@
 }
 
 .finish-field {
-    width: 100px;
+    width: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -404,7 +412,7 @@
 }
 
 .overtime-field {
-    width: 105px;
+    width: 95px;
     display: flex;
     align-items: center;
     justify-content: center;

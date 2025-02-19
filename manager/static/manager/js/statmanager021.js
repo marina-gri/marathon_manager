@@ -384,6 +384,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const pitTo = JSON.parse(document.getElementById('competition-data').textContent).pit_to;
         const raceStartAt = Date.parse(JSON.parse(document.getElementById('competition-data').textContent).race_start_at);
         const pitMinLength = JSON.parse(document.getElementById('competition-data').textContent).min_pit;
+        const raceStatusActive = JSON.parse(document.getElementById('competition-data').textContent).green_flag;
+        const raceStatusFinished = JSON.parse(document.getElementById('competition-data').textContent).finish_flag;
         const stintMaxLength = JSON.parse(document.getElementById('competition-data').textContent).max_stint;
 
 
@@ -521,57 +523,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     .filter(session => session.team_name === teamId)
                     .sort((a, b) => a.session_number - b.session_number);
 
-                let currentStartFinishTime = raceStartAt;
                 let accumulatedCompletedTime = 0;
                 let accumulatedActiveTime = 0;
                 let counter = 0;
 
                 teamSessions.forEach(session => {
                     const awaitField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .await-field p`);
-                    const startField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .start-field p`);
-                    const finishField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .finish-field p`);
             
                     if (!awaitField) return;
 
                     if (pitTo == 'nobody') {
 
-                        startField.textContent = formatTimestamp(currentStartFinishTime);
+                        
 
                         if (session.active) {
                             const activeSessionTime = elapsedSeconds - session.begin;
                             awaitField.textContent = `${formatTime(activeSessionTime)}`;
                             accumulatedActiveTime += session.planing_length;
 
-                            startField.textContent = formatTimestamp(currentStartFinishTime);
-                            currentStartFinishTime += session.planing_length * 1000;
-                            finishField.textContent = formatTimestamp(currentStartFinishTime);
-
                         } else if (session.finished) {
                             awaitField.textContent = 'Завершено';
                             accumulatedCompletedTime += session.fact_length;
-
-                            startField.textContent = formatTimestamp(currentStartFinishTime);
-                            currentStartFinishTime += session.fact_length * 1000;
-                            finishField.textContent = formatTimestamp(currentStartFinishTime);
 
                         } else {
                             const timeToStart = accumulatedActiveTime + accumulatedCompletedTime - elapsedSeconds;
                             awaitField.textContent = timeToStart > 0 ? `До старта: ${formatTime(timeToStart)}` : 'Выпускай!';
                             accumulatedActiveTime += session.planing_length;
-
-                            startField.textContent = formatTimestamp(currentStartFinishTime);
-                            currentStartFinishTime += session.planing_length * 1000;
-                            finishField.textContent = formatTimestamp(currentStartFinishTime);
                         }
 
-                        
                         if (pitstopData[counter]) {
                             const pitstopLength = pitstopData[counter].finished ? pitstopData[counter].length : pitMinLength;
                             accumulatedCompletedTime += pitstopLength;
-                            currentStartFinishTime += pitstopLength * 1000; // Смещение времени старта следующей сессии
+                       
                         } else {
                             accumulatedCompletedTime += pitMinLength;
-                            currentStartFinishTime += pitMinLength * 1000;
+                          
                         }
             
 
@@ -621,25 +607,23 @@ document.addEventListener('DOMContentLoaded', () => {
                return;
             }
 
+            let currentStartFinishTime = raceStartAt;
+            let counter = 0;
+
             teamSessions.forEach(session => {
                 const sessionRow = document.createElement('div');
                 sessionRow.className = 'schedule-row';
                 sessionRow.setAttribute('data-session-id', session.id);
 
                 // Условие для установки цвета
-                let backgroundColor;
-                let textColor;
                 if (session.finished) {
                     textColor = 'grey';
                 } else if (session.active) {
-                    backgroundColor = '#FFE8E0'; // цвет для активных сессий
+                    sessionRow.classList.add('active'); // цвет для активных сессий
                 } else {
                  // цвет для ожидающих сессий
                 }
 
-                // Применяем стиль фона к строке
-                sessionRow.style.backgroundColor = backgroundColor;
-                sessionRow.style.color = textColor;
 
                 const awaitFieldElement = document.createElement('p');
                 awaitFieldElement.className = session.active ? 'active-timer' : 'await-timer';
@@ -666,22 +650,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 } else {
                     sessionRow.innerHTML = `
-                    <div class="session-number-field elem-session-row"><p">${session.session_number}</p></div>
-                    <div class="pilot-name-field elem-session-row"><p>${session.pilot_name}</p></div>
-                    <div class="length-session-field elem-session-row"><p>${Math.floor(session.planing_length / 3600)}ч ${Math.floor((session.planing_length % 3600) / 60)}мин</p></div>
-                    <div class="await-field elem-session-row"></div>
-                    <div class="start-field elem-session-row"></div>
-                    <div class="finish-field elem-session-row"></div>
-                    <div class="overtime-field elem-session-row"></div>
+                    <div class="session-number-field"><p">${session.session_number}</p></div>
+                    <div class="pilot-name-field"><p>${session.pilot_name}</p></div>
+                    <div class="length-session-field"><p>${Math.floor(session.planing_length / 3600)}ч ${Math.floor((session.planing_length % 3600) / 60)}мин</p></div>
+                    <div class="await-field"></div>
+                    <div class="start-field"></div>
+                    <div class="finish-field"></div>
+                    <div class="overtime-field"></div>
                 `;
                 }
-
-                const elemSessionRow = document.querySelector('.elem-session-row');
-                if (session.active) {
-                    backgroundColor = '#FFE8E0'; // цвет для активных сессий
-                }
-                elemSessionRow.style.backgroundColor = backgroundColor;
-
 
                 // Добавление таймера
                 sessionRow.querySelector('.await-field').appendChild(awaitFieldElement);
@@ -690,7 +667,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 sessionRow.querySelector('.start-field').appendChild(startFieldElement);
                 sessionRow.querySelector('.finish-field').appendChild(finishFieldElement);
                 scheduleBlock.appendChild(sessionRow);
-             
+
+                
+                const startField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .start-field p`);
+                const finishField = scheduleBlock.querySelector(`.schedule-row[data-session-id="${session.id}"] .finish-field p`);
+
+                if (pitTo == 'nobody') {
+
+                    startField.textContent = formatTimestamp(currentStartFinishTime);
+
+                    if (session.active) {
+                        startField.textContent = formatTimestamp(currentStartFinishTime);
+                        currentStartFinishTime += session.planing_length * 1000;
+                        finishField.textContent = formatTimestamp(currentStartFinishTime);
+
+                    } else if (session.finished) {
+                        startField.textContent = formatTimestamp(currentStartFinishTime);
+                        currentStartFinishTime += session.fact_length * 1000;
+                        finishField.textContent = formatTimestamp(currentStartFinishTime);
+
+                    } else {
+                        startField.textContent = formatTimestamp(currentStartFinishTime);
+                        currentStartFinishTime += session.planing_length * 1000;
+                        finishField.textContent = formatTimestamp(currentStartFinishTime);
+                    }
+
+                    
+                    if (pitstopData[counter]) {
+                        const pitstopLength = pitstopData[counter].finished ? pitstopData[counter].length : pitMinLength;
+                        currentStartFinishTime += pitstopLength * 1000; // Смещение времени старта следующей сессии
+                    } else {
+                        currentStartFinishTime += pitMinLength * 1000;
+                    }
+                    
+        
+
+                    counter++;
+
+                } else {
+                    // если пит сдающему или принимающему. Добавить логику
+                }
+
+
             });
 
             // Инициализация таймеров
